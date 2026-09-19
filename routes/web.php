@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\UndergraduateThesisController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return 'welcome';
+    return 'welcome to api';
 });
 
 
