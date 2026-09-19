@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return response()->json([
-        'name' => 'FEB Thesis API',
+        'name' => 'FEB Thesis API tes',
         'version' => '1.0.0',
         'description' => 'API untuk dataset skripsi mahasiswa FEB (1030 data)',
         'database' => 'new_nlp_model_1000',
