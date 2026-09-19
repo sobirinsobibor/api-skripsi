@@ -163,4 +163,83 @@ class UndergraduateThesisController extends Controller
             'data' => $data
         ], 200);
     }
+
+    /**
+     * 3. GET STATISTICS
+     */
+    public function stats(Request $request): JsonResponse
+    {
+        $totalTheses = UndergraduateThesis::count();
+        
+        $byYear = UndergraduateThesis::query()
+            ->select('undergraduate_thesis_year')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('undergraduate_thesis_year')
+            ->orderBy('undergraduate_thesis_year', 'desc')
+            ->get()
+            ->mapWithKeys(fn($item) => [$item->undergraduate_thesis_year => (int)$item->count]);
+
+        $byProgram = UndergraduateThesis::query()
+            ->select('undergraduate_thesis_program')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('undergraduate_thesis_program')
+            ->orderBy('count', 'desc')
+            ->get()
+            ->mapWithKeys(fn($item) => [$item->undergraduate_thesis_program => (int)$item->count]);
+
+        $latestThesis = UndergraduateThesis::query()
+            ->select(['id', 'undergraduate_thesis_title', 'undergraduate_thesis_year', 'undergraduate_thesis_program', 'undergraduate_thesis_author'])
+            ->latest('id')
+            ->first();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Statistik data skripsi',
+            'data' => [
+                'total_theses' => $totalTheses,
+                'by_year' => $byYear,
+                'by_program' => $byProgram,
+                'latest_thesis' => $latestThesis,
+            ]
+        ], 200);
+    }
+
+    /**
+     * 4. GET AVAILABLE YEARS
+     */
+    public function years(): JsonResponse
+    {
+        $years = UndergraduateThesis::query()
+            ->select('undergraduate_thesis_year')
+            ->distinct()
+            ->orderBy('undergraduate_thesis_year', 'desc')
+            ->pluck('undergraduate_thesis_year')
+            ->map(fn($year) => (int)$year)
+            ->values();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Daftar tahun tersedia',
+            'data' => $years
+        ], 200);
+    }
+
+    /**
+     * 5. GET AVAILABLE PROGRAMS
+     */
+    public function programs(): JsonResponse
+    {
+        $programs = UndergraduateThesis::query()
+            ->select('undergraduate_thesis_program')
+            ->distinct()
+            ->orderBy('undergraduate_thesis_program')
+            ->pluck('undergraduate_thesis_program')
+            ->values();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Daftar program studi tersedia',
+            'data' => $programs
+        ], 200);
+    }
 }

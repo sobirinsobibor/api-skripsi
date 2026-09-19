@@ -3,38 +3,39 @@ on:
     branches:
       - main
 
-name: 🚀 Deploy website on push
+name: 🚀 Deploy API on push
 
 jobs:
-  web-deploy:
+  deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v5
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
 
-    - name: 💾 Install PHP dependencies
-      uses: php-actions/composer@v6
-      with:
+      - name: 💾 Install PHP dependencies
+        uses: php-actions/composer@v2
+        with:
           php_version: "8.3"
           dev: no
           args: --profile --ignore-platform-reqs
-          command: install
-      
-    - name: 🧰 Setup Node.js
-      uses: actions/setup-node@v6
-      with:
-        node-version: "22"
 
-    - name: 📦 Install Node.js dependencies
-      run: npm install
+      - name: 🧰 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
-    - name: 🛠️ Build project
-      run: npm run build
-    
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.4.0
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
+      - name: 📦 Install Node.js dependencies
+        run: npm install
+
+      - name: 🛠️ Build project
+        run: npm run build
+
+      - name: 📂 Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: ./
