@@ -16,15 +16,15 @@ Route::get('/', function () {
         //     'GET /api/theses/programs' => 'Daftar program studi tersedia',
         //     'GET /api/theses/{id}' => 'Detail skripsi by ID',
         // ],
-        'query_parameters' => [
-            'paginate' => 'true/false (default: true)',
-            'per_page' => '1-100 (default: 10)',
-            'fields' => 'Comma-separated kolom yang diinginkan',
-            'years' => 'Comma-separated tahun (e.g., 2018,2017)',
-            'programs' => 'Comma-separated program studi',
-            'author' => 'Nama penulis (partial match)',
-            'author_id' => 'NIM penulis (partial match)',
-            'search' => 'Search gabungan (nama, NIM, judul)',
-        ],
+        // 'query_parameters' => [
+        //     'paginate' => 'true/false (default: true)',
+        //     'per_page' => '1-100 (default: 10)',
+        //     'fields' => 'Comma-separated kolom yang diinginkan',
+        //     'years' => 'Comma-separated tahun (e.g., 2018,2017)',
+        //     'programs' => 'Comma-separated program studi',
+        //     'author' => 'Nama penulis (partial match)',
+        //     'author_id' => 'NIM penulis (partial match)',
+        //     'search' => 'Search gabungan (nama, NIM, judul)',
+        // ],
     ]);
 });
