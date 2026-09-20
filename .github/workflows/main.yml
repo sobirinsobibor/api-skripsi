@@ -16,7 +16,7 @@ jobs:
       - name: 💾 Install PHP dependencies
         uses: php-actions/composer@v2
         with:
-          php_version: "8.3"
+          php_version: "8.4"
           dev: no
           args: --profile --ignore-platform-reqs
 
